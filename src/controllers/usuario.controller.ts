@@ -50,4 +50,66 @@ export class UsuarioController {
             })
         }
     }
+
+    //detalhes de um usuario
+    public async show(request: Request, response: Response) {
+        try {
+
+            const { id } = request.params
+
+            const resultado = await usuarioService.findById(id)
+
+            return response.status(resultado.code).json(resultado)
+
+        } catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: 'Erro ao buscar usuário'
+            })
+        }
+    }
+
+    //atualiza um usuario
+    public async update(request: Request, response: Response) {
+        try {
+            const { id } = request.params
+            const { nome, email, nomeUsuario, senha } = request.body
+
+            const resultado = await usuarioService.update({
+                id,
+                nome,
+                email,
+                nomeUsuario,
+                senha
+            })
+
+            response.status(resultado.code).json(resultado)
+
+        } catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: 'Erro ao atualizar usuário'
+            })
+        }
+    }
+
+    //excluir usuario
+    public async delete(request:Request, response:Response){
+        try{
+            const {id}= request.params
+
+            const resultado = await usuarioService.delete(id)
+
+            response.status(resultado.code).json(resultado)
+
+        }catch(error){
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: 'Erro ao excluir usuário'
+            })
+        }
+    }
 }
