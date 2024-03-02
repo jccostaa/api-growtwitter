@@ -73,18 +73,53 @@ export class TweetService {
         }
 
         const resultado = await repository.tweet.update({
-            where:{
+            where: {
                 id: tweetDTO.id
             },
-            data:{
+            data: {
                 conteudo: tweetDTO.conteudo
             }
         })
 
-        return{
+        return {
             success: true,
             code: 200,
             message: "Tweet atualizado com sucesso",
+            data: resultado
+        }
+    }
+
+    public async delete(id: string, idUsuario: string): Promise<ResponseDTO> {
+        const usuario = await repository.student.findUnique({
+            where: {
+                id: idUsuario
+            }
+        })
+
+        if (!usuario) {
+            throw new Error("Usuario não encontrado.")
+        }
+
+        const tweet = await repository.tweet.findUnique({
+            where: {
+                id
+            }
+        })
+
+        if (!tweet) {
+            throw new Error("Tweet não encontrado.")
+        }
+
+        const resultado = await repository.tweet.delete({
+            where:{
+                id
+            }
+        })
+
+        return {
+            success: true,
+            code: 200,
+            message: "Tweet excluído com sucesso.",
             data: resultado
           }
     }

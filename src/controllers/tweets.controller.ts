@@ -83,6 +83,24 @@ export class TweetController {
             })
         }
     }
-}
+
+    public async delete(request: Request, response: Response){
+        try{
+            const {id, idUsuario} = request.params
+
+            const resultado = await tweetService.delete(id, idUsuario)
+    
+            return response.status(resultado.code).json(resultado)
+        }
+        catch(error){
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: "Erro ao deletar tweet."
+              })
+            }
+        }
+    }
+
 
 
