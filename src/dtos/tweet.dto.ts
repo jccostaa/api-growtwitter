@@ -1,11 +1,11 @@
-export class CreateTweetDTO {
+export interface CreateTweetDTO {
     conteudo: string
     tipo: string
     idUsuario: string
 }
 
-export class UpdateTweetDTO {
+export interface UpdateTweetDTO {
     id:string
     conteudo: string
-    usuarioId: string
+    idUsuario: string
 }

@@ -13,10 +13,10 @@ export class Like {
     get id(): string {
         return this._id
     }
-    get usuarioId(): string {
+    get idUsuario(): string {
         return this._usuarioId
     }
-    get tweetId(): string {
+    get idTweet(): string {
         return this._tweetId
     }
 }

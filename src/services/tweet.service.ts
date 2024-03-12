@@ -8,7 +8,7 @@ export class TweetService {
     public async findAll(idUsuario: string): Promise<ResponseDTO> {
         const tweets = await repository.tweet.findMany({
             where: {
-                id: idUsuario
+                usuarioId: idUsuario
             }
         })
 
@@ -32,9 +32,9 @@ export class TweetService {
         }
 
         const novoTweet = new Tweet(
+            tweetDTO.idUsuario,
             tweetDTO.conteudo,
-            tweetDTO.tipo,
-            tweetDTO.idUsuario
+            tweetDTO.tipo
         )
 
         const createdTweet = await repository.tweet.create({
@@ -47,7 +47,7 @@ export class TweetService {
         return {
             success: true,
             code: 201,
-            message: "Avaliação criada com sucesso",
+            message: "Tweet criado com sucesso",
             data: createdTweet
         }
     }
@@ -55,7 +55,7 @@ export class TweetService {
     public async update(tweetDTO: UpdateTweetDTO): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
             where: {
-                id: tweetDTO.usuarioId
+                id: tweetDTO.idUsuario
             }
         })
 

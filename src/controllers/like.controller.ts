@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { LikeService } from "../services/like.service";
-import { Like } from "../models/like.model";
 import { CreateLikeDTO } from "../dtos/like.dto";
 
 const likeService = new LikeService()
@@ -25,14 +24,16 @@ export class LikeController {
 
     public async store(request: Request, response: Response) {
         try {
-            const { usuarioId, tweetId } = request.body
 
-            const like: CreateLikeDTO = { usuarioId, tweetId }
+            const { idUsuario, idTweet } = request.params
+
+            const like: CreateLikeDTO = { idUsuario, idTweet }
 
             const resultado = await likeService.create(like)
 
-            return response.status(resultado.code).json(resultado)
+            return response.status(201).json(resultado)
         } catch (error) {
+            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,
@@ -43,17 +44,19 @@ export class LikeController {
 
     public async delete(request: Request, response: Response) {
         try {
-            const {id, usuarioId} = request.params
-
-            const resultado = await likeService.delete(id, usuarioId)
-
-            return response.status(resultado.code).json(resultado)
+            const { id, idUsuario } = request.params;
+    
+            const resultado = await likeService.delete(id, idUsuario);
+    
+            return response.status(resultado.code).json(resultado);
         } catch (error) {
+            console.log(error)
             return response.status(500).json({
                 success: false,
-                code: response.statusCode,
+                code: 500,
                 message: "Erro ao deletar like."
-            })
+            });
         }
     }
+    
 }

@@ -7,12 +7,12 @@ const usuarioService = new UsuarioService()
 export class UsuarioController {
 
     //listar todos usuarios
-    public async index(response: Response) {
+    public async index(request:Request, response:Response) {
         try {
 
             const usuarios = await usuarioService.findAll()
 
-            return response.status(200).json(usuarios)
+            return response.status(usuarios.code).json(usuarios)
         } catch (error) {
             return response.status(500).json({
                 success: false,

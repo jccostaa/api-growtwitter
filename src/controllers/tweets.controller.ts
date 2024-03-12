@@ -19,7 +19,7 @@ export class TweetController {
         catch (error) {
             return response.status(500).json({
                 success: false,
-                code: response.statusCode,
+                code: 500,
                 message: 'Erro ao listar tweets'
             })
         }
@@ -46,6 +46,7 @@ export class TweetController {
             return response.status(resultado.code).json(resultado)
         }
         catch (error) {
+            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,
@@ -58,7 +59,7 @@ export class TweetController {
     public async update(request: Request, response: Response) {
         try {
 
-            const { id, usuarioId } = request.params
+            const { id, idUsuario } = request.params
             const { conteudo } = request.body
 
             if (!conteudo) {
@@ -71,12 +72,15 @@ export class TweetController {
 
             const resultado = await tweetService.update({
                 id,
-                usuarioId,
+                idUsuario,
                 conteudo
             })
 
+            return response.status(200).json(resultado)
+
         }
         catch (error) {
+            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,

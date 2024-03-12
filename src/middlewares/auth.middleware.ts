@@ -8,9 +8,9 @@ export async function validateToken(request: Request, response: Response, next: 
         const { idUsuario } = request.params
 
         if (!authorization) {
-            response.status(401).json({
+            return response.status(401).json({
                 success: false,
-                code: response.statusCode,
+                code: 401,
                 message: "Token não informado"
             })
         }
@@ -24,14 +24,14 @@ export async function validateToken(request: Request, response: Response, next: 
         if (!usuario || usuario.token !== authorization) {
             return response.status(401).json({
                 success: false,
-                code: response.statusCode,
+                code: 401,
                 message: "Token invalido"
             })
         }
 
         next();
     } catch (error) {
-        response.status(500).json({
+        return response.status(500).json({
             success: false,
             code: response.statusCode,
             message: "Erro"

@@ -1,4 +1,4 @@
-export class CreateLikeDTO {
-    usuarioId: string
-    tweetId: string
+export interface CreateLikeDTO {
+    idUsuario: string
+    idTweet: string
 }

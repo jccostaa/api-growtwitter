@@ -21,42 +21,41 @@ export class LikeService{
     }
 
     public async create(likeDTO: CreateLikeDTO): Promise<ResponseDTO> {
-
         const usuario = await repository.usuario.findUnique({
             where:{
-                id: likeDTO.usuarioId
+                id: likeDTO.idUsuario
             }
         })
-
+    
         if (!usuario) {
             throw new Error("Usuario não encontrado").cause
         }
-
+    
         const like = new Like(
-            likeDTO.usuarioId,
-            likeDTO.tweetId
+            likeDTO.idUsuario,
+            likeDTO.idTweet
         )
         
         const createdLike = await repository.like.create({
             data:{
-                usuarioId: like.usuarioId,
-                tweetId: like.tweetId
+                usuarioId: like.idUsuario,
+                tweetId: like.idTweet
             }
         })
-
+    
         return {
             success: true,
             code: 201,
-            message: "Avaliação criada com sucesso",
+            message: "Like criado com sucesso",
             data: createdLike
         }
-
     }
+    
 
     public async delete(id:string, usuarioId:string): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
             where:{
-                id: usuarioId
+                id:usuarioId
             }
         })
         if (!usuario) {

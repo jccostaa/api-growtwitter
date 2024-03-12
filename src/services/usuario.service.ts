@@ -6,13 +6,13 @@ import { Usuario } from "../models/usuario.model"
 export class UsuarioService {
 
     public async findAll(): Promise<ResponseDTO> {
-        const students = await repository.seguidor.findMany()
+        const usuarios = await repository.usuario.findMany()
 
         return {
             success: true,
             code: 200,
-            message: 'Alunos listados com sucesso',
-            data: students
+            message: 'Usuarios listados com sucesso',
+            data: usuarios
         }
     }
 
