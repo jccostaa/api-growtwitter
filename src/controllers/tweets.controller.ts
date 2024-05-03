@@ -12,11 +12,28 @@ export class TweetController {
         try {
             const { idUsuario } = request.params
 
-            const tweets = await tweetService.findAll(idUsuario)
+            const tweets = await tweetService.findAllById(idUsuario)
 
             return response.status(200).json(tweets)
         }
         catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: 500,
+                message: 'Erro ao listar tweets do usuario'
+            })
+        }
+    }
+
+    //listagem de todos
+    public async indexAll(request: Request, response:Response){
+        try{
+            const { idUsuario } = request.params
+
+            const AllTweets = await tweetService.findAll(idUsuario)
+
+            return response.status(200).json(AllTweets)
+        }catch(error){
             return response.status(500).json({
                 success: false,
                 code: 500,

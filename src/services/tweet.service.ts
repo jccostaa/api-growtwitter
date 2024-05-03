@@ -5,7 +5,20 @@ import { Tweet } from "../models/tweet.model";
 
 export class TweetService {
 
-    public async findAll(idUsuario: string): Promise<ResponseDTO> {
+    public async findAll(idUsuario: string): Promise<ResponseDTO>{
+
+        
+        const allTweets = await repository.tweet.findMany()
+
+        return {
+            success: true,
+            code: 200,
+            message: "Tweets listados com sucesso",
+            data: allTweets
+        }
+    }
+
+    public async findAllById(idUsuario: string): Promise<ResponseDTO> {
         const tweets = await repository.tweet.findMany({
             where: {
                 usuarioId: idUsuario

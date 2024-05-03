@@ -1,3 +1,4 @@
+
 export interface CreateTweetDTO {
     conteudo: string
     tipo: string
