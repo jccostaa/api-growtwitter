@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { AuthService } from "../services/auth.service"
+import { missingFieldsError, serverError } from "../util/response.helpers"
 
 const authService = new AuthService()
 
@@ -9,28 +10,15 @@ export class AuthController {
             const { email, senha } = request.body
 
             if (!email || !senha) {
-                return response.status(400).json({
-                    success: false,
-                    code: response.statusCode,
-                    message: "Preencha todos os campos obrigatorios"
-                })
+                return missingFieldsError(response)
             }
 
-            const { token, userId } = await authService.login(email, senha)
+            const result = await authService.login({ email, senha })
 
-            return response.status(200).json({
-                success: true,
-                code: response.statusCode,
-                message: "Login realizado com sucesso",
-                token,
-                userId
-            })
+            return response.status(200).json(result)
+
         } catch (error: any) {
-            return response.status(500).json({
-                success: false,
-                code: response.statusCode,
-                message: error.message
-            })
+            return serverError(response, error)
         }
     }
 }
