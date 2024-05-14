@@ -66,6 +66,7 @@ model Like {
 }
 
 model Reply {
+  id String @id @default(uuid()) @db.Uuid
   usuarioId String  @default(uuid()) @map("id_usuario") @db.Uuid
   tweetId   String  @default(uuid()) @map("id_tweet") @db.Uuid
   conteudo  String? @db.VarChar(280)
@@ -76,7 +77,6 @@ model Reply {
   usuario Usuario @relation(fields: [usuarioId], references: [id])
   tweet   Tweet   @relation(fields: [tweetId], references: [id])
 
-  @@id([tweetId, usuarioId])
   @@map("replies")
 }
 

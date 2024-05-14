@@ -5,9 +5,8 @@ import { Tweet } from "../models/tweet.model";
 
 export class TweetService {
 
-    public async findAll(idUsuario: string): Promise<ResponseDTO>{
+    public async findAll(): Promise<ResponseDTO> {
 
-        
         const allTweets = await repository.tweet.findMany()
 
         return {
@@ -124,7 +123,7 @@ export class TweetService {
         }
 
         const resultado = await repository.tweet.delete({
-            where:{
+            where: {
                 id
             }
         })
@@ -134,6 +133,6 @@ export class TweetService {
             code: 200,
             message: "Tweet excluído com sucesso.",
             data: resultado
-          }
+        }
     }
 }

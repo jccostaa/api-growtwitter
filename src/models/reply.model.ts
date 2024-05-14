@@ -20,7 +20,7 @@ export class Reply {
     get tweetId(): string {
         return this._tweetId
     }
-    get conteudo():string{
+    get conteudo():string | undefined{
         return this._conteudo
     }
 }
