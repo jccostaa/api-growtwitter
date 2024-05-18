@@ -102,7 +102,7 @@ export class ReplyService {
         }
     }
 
-    public async delete(id:string, idTweet:string, idUsuario:string){
+    public async delete(id:string, idTweet:string, idUsuario:string): Promise<ResponseDTO>{
         const usuario = await repository.usuario.findUnique({
             where: {
                 id: idUsuario
