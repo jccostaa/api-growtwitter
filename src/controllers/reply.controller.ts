@@ -37,4 +37,35 @@ export class ReplyController {
             });
         }
     }
+
+    public async update(request: Request, response: Response) {
+        try{
+            const {id, idUsuario, idTweet} = request.params
+            const {conteudo} = request.body
+
+            if (!conteudo) {
+                return response.status(400).json({
+                    success: false,
+                    code: response.statusCode,
+                    message: "Preencha os campos obrigatorios"
+                })
+            }
+
+            const resultado = await replyService.update({
+                id,
+                idTweet,
+                idUsuario,
+                conteudo
+            })
+
+            return response.status(200).json(resultado)
+        }catch(error:any){
+            console.log(error)
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: "Erro ao atualizar reply"
+            })
+        }
+    }
 }

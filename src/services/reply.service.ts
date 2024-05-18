@@ -1,6 +1,6 @@
 import { repository } from "../database/prisma.connection";
 import { ResponseDTO } from "../dtos/response.dto";
-import { ReplyTweetDTO } from "../dtos/tweet.dto";
+import { ReplyTweetDTO, UpdateReplyDTO } from "../dtos/tweet.dto";
 import { Reply } from "../models/reply.model";
 
 export class ReplyService {
@@ -57,5 +57,48 @@ export class ReplyService {
         };
     }
 
+    public async update(tweetDTO: UpdateReplyDTO){
+        const usuario = await repository.usuario.findUnique({
+            where:{
+                id:tweetDTO.idUsuario
+            }
+        })
+        if (!usuario) {
+            throw new Error("Usuario não encontrado")
+        }
 
+        const tweet = await repository.tweet.findUnique({
+            where:{
+                id:tweetDTO.idTweet
+            }
+        })
+        if (!tweet) {
+            throw new Error("Tweet não encontrada")
+        }
+
+        const reply = await repository.reply.findUnique({
+            where:{
+                id:tweetDTO.id
+            }
+        })
+        if (!reply) {
+            throw new Error("Tweet não encontrada")
+        }
+
+        const resultado = await repository.reply.update({
+            where:{
+                id:tweetDTO.id
+            },
+            data:{
+                conteudo:tweetDTO.conteudo
+            }
+        })
+
+        return {
+            success: true,
+            code: 200,
+            message: "Reply atualizado com sucesso",
+            data: resultado
+        }
+    }
 }
