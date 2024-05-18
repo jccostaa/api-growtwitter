@@ -23,7 +23,7 @@ export class SeguidorService{
     public async create(seguidorDTO:CreateSeguidorDTO){
         const novoSeguidor = new Seguidor(
             seguidorDTO.idUsuario,
-            seguidorDTO.idUsuarioSeguir
+            seguidorDTO.idUsuarioSeguindo
         )
 
         const createdSeguidor = await repository.seguidor.create({

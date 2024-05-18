@@ -24,9 +24,9 @@ export class SeguidorController{
     public async store(request:Request, response:Response){
         try{
             const {idUsuario} = request.params
-            const {idUsuarioSeguir} = request.body
+            const {idUsuarioSeguindo} = request.body
 
-            if(!idUsuarioSeguir){
+            if(!idUsuarioSeguindo){
                 return response.status(400).json({
                     success: false,
                     code: response.statusCode,
@@ -34,7 +34,7 @@ export class SeguidorController{
                 })
             }
 
-            const seguidor:CreateSeguidorDTO = {idUsuario, idUsuarioSeguir}
+            const seguidor:CreateSeguidorDTO = {idUsuario, idUsuarioSeguindo}
 
             const resultado = await seguidorService.create(seguidor)
 
