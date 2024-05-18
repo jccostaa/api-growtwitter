@@ -47,4 +47,21 @@ export class SeguidorController{
             })
         }
     }
+
+    public async delete(request: Request, response: Response) {
+        try {
+            const { idUsuario, idSeguidor } = request.params;
+
+            const resultado = await seguidorService.delete(idUsuario, idSeguidor);
+
+            return response.status(resultado.code).json(resultado);
+        } catch (error: any) {
+            console.log(error.toString());
+            return response.status(500).json({
+                success: false,
+                code: 500,
+                message: "Erro ao excluir seguidor"
+            });
+        }
+    }
 }

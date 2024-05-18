@@ -39,4 +39,39 @@ export class SeguidorService{
             data: createdSeguidor
         }
     }
+
+    public async delete(idUsuario: string, idSeguidor: string): Promise<ResponseDTO> {
+
+        const relation = await repository.seguidor.findUnique({
+            where: {
+                usuarioId_seguidorId: {
+                    usuarioId: idUsuario,
+                    seguidorId: idSeguidor
+                }
+            }
+        });
+
+        if (!relation) {
+            return {
+                success: false,
+                code: 404,
+                message: "Relação seguidor/seguido não encontrada"
+            };
+        }
+
+        await repository.seguidor.delete({
+            where: {
+                usuarioId_seguidorId: {
+                    usuarioId: idUsuario,
+                    seguidorId: idSeguidor
+                }
+            }
+        });
+
+        return {
+            success: true,
+            code: 200,
+            message: "Seguidor excluído com sucesso"
+        };
+    }
 }
