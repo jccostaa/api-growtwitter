@@ -68,4 +68,20 @@ export class ReplyController {
             })
         }
     }
+
+    public async delete(request: Request, response: Response){
+        try{
+            const {id, idTweet, idUsuario} = request.params
+
+            const resultado = await replyService.delete(id, idTweet, idUsuario)
+
+            return response.status(200).json(resultado)
+        }catch(error){
+            return response.status(500).json({
+                success: false,
+                code: response.statusCode,
+                message: "Erro ao deletar Reply."
+            })
+        }
+    }
 }

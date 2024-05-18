@@ -10,4 +10,7 @@ router.get('/usuarios/:idUsuario/replies', validateToken, replyController.index)
 router.post('/usuarios/:idUsuario/tweets/:idTweet/replies', validateToken, replyController.store)
 
 router.put('/usuarios/:idUsuario/tweets/:idTweet/replies/:id', validateToken, replyController.update)
+
+router.delete('/usuarios/:idUsuario/tweets/:idTweet/replies/:id', validateToken, replyController.delete)
+
 export default router

@@ -57,7 +57,7 @@ export class ReplyService {
         };
     }
 
-    public async update(tweetDTO: UpdateReplyDTO){
+    public async update(tweetDTO: UpdateReplyDTO): Promise<ResponseDTO>{
         const usuario = await repository.usuario.findUnique({
             where:{
                 id:tweetDTO.idUsuario
@@ -98,6 +98,48 @@ export class ReplyService {
             success: true,
             code: 200,
             message: "Reply atualizado com sucesso",
+            data: resultado
+        }
+    }
+
+    public async delete(id:string, idTweet:string, idUsuario:string){
+        const usuario = await repository.usuario.findUnique({
+            where: {
+                id: idUsuario
+            }
+        })
+        if (!usuario) {
+            throw new Error("Usuario não encontrado.")
+        }
+
+        const tweet = await repository.tweet.findUnique({
+            where: {
+                id:idTweet
+            }
+        })
+        if (!tweet) {
+            throw new Error("Tweet não encontrado.")
+        }
+
+        const reply = await repository.reply.findUnique({
+            where:{
+                id
+            }
+        })
+        if (!reply) {
+            throw new Error("Tweet não encontrada")
+        }
+
+        const resultado = await repository.reply.delete({
+            where:{
+                id
+            }
+        })
+
+        return {
+            success: true,
+            code: 200,
+            message: "Reply excluído com sucesso.",
             data: resultado
         }
     }
