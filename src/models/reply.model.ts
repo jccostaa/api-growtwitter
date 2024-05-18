@@ -6,7 +6,7 @@ export class Reply {
     constructor(
         private _usuarioId: string,
         private _tweetId: string,
-        private _conteudo?:string
+        private _conteudo:string
     ) {
         this._id = randomUUID()
     }

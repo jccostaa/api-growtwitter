@@ -7,6 +7,12 @@ export interface CreateTweetDTO {
 
 export interface UpdateTweetDTO {
     id:string
-    conteudo: string
     idUsuario: string
+    conteudo: string
+}
+
+export interface ReplyTweetDTO{
+    idUsuario: string
+    idTweet: string
+    conteudo:string | ""
 }

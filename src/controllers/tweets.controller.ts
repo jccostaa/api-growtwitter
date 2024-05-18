@@ -61,7 +61,6 @@ export class TweetController {
             return response.status(resultado.code).json(resultado)
         }
         catch (error) {
-            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,
@@ -94,7 +93,7 @@ export class TweetController {
             return response.status(200).json(resultado)
 
         }
-        catch (error) {
+        catch (error:any) {
             console.log(error)
             return response.status(500).json({
                 success: false,

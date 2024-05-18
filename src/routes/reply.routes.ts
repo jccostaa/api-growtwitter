@@ -7,5 +7,6 @@ const replyController = new ReplyController()
 
 router.get('/usuarios/:idUsuario/reply', validateToken, replyController.index)
 
+router.post('/usuarios/:idUsuario/tweets/:idTweet/replies', validateToken, replyController.store)
 
 export default router
