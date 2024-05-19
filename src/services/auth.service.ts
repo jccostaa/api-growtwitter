@@ -1,5 +1,4 @@
 import { repository } from "../database/prisma.connection";
-//import { randomUUID } from "crypto";
 import { ResponseData } from "../dtos/response.dto";
 import { AuthDTO, PayloadToken } from "../dtos/auth.dto";
 import jwt from "jsonwebtoken"
@@ -7,6 +6,21 @@ import jwt from "jsonwebtoken"
 
 
 export class AuthService {
+
+    /**
+     * Realiza uma autenticação na API através de login com email e senha
+     * ```ts
+     * const authService = new AuthService();
+     * const result = await authservice.login({
+     * email:"email@email.com",
+     * senha:"12345"
+     * })
+     * ```
+     * @author Jean Costa
+     * @param data AuthDTO com email e senha
+     * @async por conta da chamada ao banco de dados
+     * @returns um objeto contendo as informações de erro/sucesso e os dados do usuario logado(com token)
+     */
     public async login(data: AuthDTO): Promise<ResponseData> {
 
         const usuario = await repository.usuario.findFirst({
@@ -25,23 +39,12 @@ export class AuthService {
             }
         }
 
-        //const token = randomUUID();
-
         const usuario_id = {
             id: usuario.id
         }
-        //const token = jwt.sign(user_id, process.env.JWT_SECRET!) exclamação para avisar que é garantido que virá uma informação
 
         const token = this.generateToken(usuario_id)
 
-        // await repository.usuario.update({
-        //     where: {
-        //         id: usuario.id
-        //     },
-        //     data: {
-        //         token
-        //     }
-        // });
 
         return {
             success: true,
@@ -57,6 +60,12 @@ export class AuthService {
         };
     }
 
+    /**
+     * Validar se o token é valido ou não
+     * @param token token informado pelo usuario 
+     * @param idUsuario id do usuario
+     * @returns os dados do usuário 
+     */
     public async validateLogin(token: string, id: string): Promise<ResponseData> {
 
         const payload = this.validateToken(token) as PayloadToken

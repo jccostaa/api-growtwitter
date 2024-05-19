@@ -40,6 +40,22 @@ export class TweetController {
         }
     }
 
+    //feed classico do twitter, seus e de quem segue
+    public async indexFollowing(request: Request, response: Response) {
+        try {
+            const { idUsuario } = request.params;
+            const tweets = await tweetService.findFollowingTweets(idUsuario);
+
+            return response.status(200).json(tweets);
+        } catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: 500,
+                message: 'Erro ao listar tweets do usuário e dos seguidores'
+            });
+        }
+    }
+
     //criar um novo tweet
     public async store(request: Request, response: Response) {
         try {

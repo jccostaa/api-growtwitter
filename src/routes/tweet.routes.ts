@@ -12,6 +12,8 @@ router.get('/usuarios/:idUsuario/tweets', validateToken, tweetController.index)
 
 router.get('/usuarios/:idUsuario/alltweets', tweetController.indexAll)
 
+router.get('/usuarios/:idUsuario/tweets/following', tweetController.indexFollowing)
+
 router.post('/usuarios/:idUsuario/tweets', validateToken, tweetController.store)
 
 router.put('/usuarios/:idUsuario/tweets/:id', validateToken, tweetController.update)

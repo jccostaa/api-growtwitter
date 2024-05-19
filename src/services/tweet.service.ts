@@ -7,7 +7,11 @@ export class TweetService {
 
     public async findAll(): Promise<ResponseDTO> {
 
-        const allTweets = await repository.tweet.findMany()
+        const allTweets = await repository.tweet.findMany({
+            include:{
+                replies:true
+            }
+        })
 
         return {
             success: true,
@@ -21,6 +25,8 @@ export class TweetService {
         const tweets = await repository.tweet.findMany({
             where: {
                 usuarioId: idUsuario
+            }, include:{
+                replies:true
             }
         })
 
@@ -30,6 +36,35 @@ export class TweetService {
             message: "Tweets listados com sucesso",
             data: tweets
         }
+    }
+
+    public async findFollowingTweets(idUsuario: string): Promise<ResponseDTO> {
+        const seguindo = await repository.seguidor.findMany({
+            where: { seguidorId: idUsuario },
+            select: { usuarioId: true }
+        });
+
+        const seguindoIds = seguindo.map(seguido => seguido.usuarioId);
+
+        seguindoIds.push(idUsuario);
+
+        const tweets = await repository.tweet.findMany({
+            where: {
+                usuarioId: {
+                    in: seguindoIds
+                }
+            },
+            include: {
+                replies: true
+            }
+        });
+
+        return {
+            success: true,
+            code: 200,
+            message: "Tweets listados com sucesso",
+            data: tweets
+        };
     }
 
     public async create(tweetDTO: CreateTweetDTO): Promise<ResponseDTO> {

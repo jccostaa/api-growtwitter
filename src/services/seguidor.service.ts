@@ -9,6 +9,9 @@ export class SeguidorService{
         const seguidores = await repository.seguidor.findMany({
             where:{
                 usuarioId:id
+            },
+            include: {
+                seguidor: true
             }
         })
 

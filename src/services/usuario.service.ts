@@ -6,7 +6,11 @@ import { Usuario } from "../models/usuario.model"
 export class UsuarioService {
 
     public async findAll(): Promise<ResponseDTO> {
-        const usuarios = await repository.usuario.findMany()
+        const usuarios = await repository.usuario.findMany({
+            include:{
+                seguidores:true
+            }
+        })
 
         return {
             success: true,
