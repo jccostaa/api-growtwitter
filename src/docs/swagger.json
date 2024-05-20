@@ -1,0 +1,293 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Api do GrowTwitter",
+        "description": "Aplicação baseada no site Twitter",
+        "version": "1.0.0"
+    },
+    "tags": [
+        {
+            "name": "Usuarios",
+            "description": "Rotas relacionadas aos usuarios"
+        },
+        {
+            "name": "Login",
+            "description": "Rotas de Login"
+        },
+        {
+            "name": "Tweets",
+            "description": "Rotas relacionadas a tweets dos usuarios"
+        }
+    ],
+    "paths": {
+        "/usuarios": {
+            "description": "Rota para listar todos os usuarios",
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "description": "Lista todos os usuarios cadastrados na aplicação",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar usuarios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/usuario"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Jane Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "janeDoe@gmail.com"
+                                    },
+                                    "nomeUsuario": {
+                                        "type": "string",
+                                        "example": "janeDoe123"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "example": "1234567"
+                                    }
+                                },
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "senha",
+                                    "nomeUsuario"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao criar usuario"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "description": "Rota para realizar o login do usuario",
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "janeDoe@gmail.com"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "example": "1234567"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "senha"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao efetuar o login do usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/loginSuccess"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais invalidas"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            }
+        },
+        "/usuarios/{id}/tweets": {
+            "get": {
+                "tags": [
+                    "Tweets"
+                ],
+                "description": "Obter tweets de um usuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Id do usuario a ser consultado",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tweets listados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/tweet"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrada"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "auth": []
+                    }
+                ]
+            }
+        },
+        "/usuarios/{id}": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "description": "Obtém um aluno através do id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar aluno",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/usuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "usuario": {
+                "description": "Interface de modelagem de um usuario",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "20c0573e-956b-4d02-bff3-8b98d45b1a75"
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Jane Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "jane-doe@gmail.com"
+                    },
+                    "nomeUsuario": {
+                        "type": "string",
+                        "example": "janeDoe12345"
+                    },
+                    "senha": {
+                        "type": "string",
+                        "example": "1234567"
+                    }
+                }
+            },
+            "loginSuccess": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "tweet": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "conteudo": {
+                        "type": "string"
+                    },
+                    "tipo": {
+                        "type": "string"
+                    },
+                    "replies": {
+                        "type": "array"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "auth": {
+                "name": "Authorization",
+                "in": "header",
+                "description": "JWT Authorization",
+                "type": "apiKey"
+            }
+        }
+    }
+}

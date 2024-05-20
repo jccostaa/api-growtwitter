@@ -30,6 +30,14 @@ export class TweetService {
             }
         })
 
+        if(!tweets){
+            return {
+                success: false,
+                code: 404,
+                message: "Tweets não encontrados"
+            }
+        }
+
         return {
             success: true,
             code: 200,

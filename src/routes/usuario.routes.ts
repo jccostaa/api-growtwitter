@@ -6,11 +6,11 @@ const router = express.Router();
 
 const usuarioController = new UsuarioController()
 
-router.get('/usuarios', validateToken, usuarioController.index)
+router.get('/usuarios', usuarioController.index)
 
 router.post('/usuarios', usuarioController.store)
 
-router.get('/usuarios/:id', validateToken, usuarioController.show)
+router.get('/usuarios/:id', usuarioController.show)
 
 router.put('/usuarios/:id', validateToken, usuarioController.update)
 
