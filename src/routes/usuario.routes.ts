@@ -12,9 +12,9 @@ router.post('/usuarios', usuarioController.store)
 
 router.get('/usuarios/:id', usuarioController.show)
 
-router.put('/usuarios/:id', validateToken, usuarioController.update)
+router.put('/usuarios/:id', usuarioController.update)
 
-router.delete('/usuarios/:id', validateToken, usuarioController.delete)
+router.delete('/usuarios/:id', usuarioController.delete)
 
 
 export default router

@@ -17,6 +17,10 @@
         {
             "name": "Tweets",
             "description": "Rotas relacionadas a tweets dos usuarios"
+        },
+        {
+            "name": "Likes",
+            "description": "Rotas relacionadas a likes em tweets"
         }
     ],
     "paths": {
@@ -47,6 +51,7 @@
                 }
             },
             "post": {
+                "description": "Rota para criação de um usuario",
                 "tags": [
                     "Usuarios"
                 ],
@@ -221,6 +226,235 @@
                         "description": "Erro generico do servidor"
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "description": "Rota para update de algum campo do usuario",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Jane Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "janeDoe@gmail.com"
+                                    },
+                                    "nomeUsuario": {
+                                        "type": "string",
+                                        "example": "janeDoe123"
+                                    },
+                                    "senha": {
+                                        "type": "string",
+                                        "example": "1234567"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao atualizar o usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/usuario"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "description": "Rota para deletar um usuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao excluir usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/usuario"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuario não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                }
+            }
+        },
+        "/usuarios/{id}/likes": {
+            "get": {
+                "tags": [
+                    "Likes"
+                ],
+                "description": "Rota para listagem de likes de um usuario",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar likes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/like"
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Não autorizado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "auth": []
+                    }
+                ]
+            }
+        },
+        "/usuarios/{id}/tweets/{idTweet}/likes":{
+            "post":{
+                "tags": ["Likes"],
+                "description": "Rota para criação de like em um determinado tweet",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idTweet",
+                        "description": "id do tweet",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Sucesso ao criar like",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/like"
+                                }
+                            }
+                        }
+                    },
+                    "401":{
+                        "description": "Não autorizado, token inválido"
+                    },
+                    "500": {
+                        "description": "Erro generico do servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "auth": []
+                    }
+                ]
+            }
+        },
+        "/usuarios/{id}/likes/{idLike}":{
+            "delete":{
+                "tags": ["Likes"],
+                "description": "Rota para deletar um determinado like",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "id do usuario",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idLike",
+                        "description": "id do like",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Sucesso ao deletar like"
+                    },
+                    "401":{
+                        "description": "Credenciais inválidas"
+                    },
+                    "404":{
+                        "description": "Usuario não encontrado"
+                    },
+                    "500":{
+                        "description": "Erro generico do servidor"
+                    }
+                }
             }
         }
     },
@@ -249,6 +483,10 @@
                     "senha": {
                         "type": "string",
                         "example": "1234567"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlZDU0MDVhLWRlYzEtNDgwZC05MWI5LTcwOWQ1ZmMyNjk4NyIsImlhdCI6MTcxNTUzOTEwMCwiZXhwIjoxNzE1NjI1NTAwfQ.Odg4YOxuL9HEPXN8iGuChjGdDLMWRXkF5E-aGunIjVk"
                     }
                 }
             },
@@ -277,6 +515,23 @@
                     },
                     "replies": {
                         "type": "array"
+                    }
+                }
+            },
+            "like": {
+                "type": "object",
+                "properties": {
+                    "id":{
+                        "type": "string",
+                        "example":"cde07ab7-605f-457c-9f46-01e9ab7d69e4"
+                    },
+                    "usuarioId":{
+                        "type": "string",
+                        "example":"734b8583-56be-49jd-a9fb-573603459d52"
+                    },
+                    "tweetId":{
+                        "type": "string",
+                        "example":"ced5405a-dec1-480d-91b9-709d5fc9h736"
                     }
                 }
             }

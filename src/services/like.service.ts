@@ -59,7 +59,11 @@ export class LikeService{
             }
         })
         if (!usuario) {
-            throw new Error("Usuario não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+              }
         }
 
         const resultado = await repository.like.delete({

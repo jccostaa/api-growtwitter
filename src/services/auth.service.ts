@@ -77,7 +77,6 @@ export class AuthService {
                 code:401
             }
         }
-
         return{
             success:true,
             message:"Validação executada com sucesso",
