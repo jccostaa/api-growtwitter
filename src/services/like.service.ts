@@ -1,4 +1,4 @@
-import { repository } from "../database/prisma.connection";
+import repository from "../database/prisma.connection";
 import { CreateLikeDTO } from "../dtos/like.dto";
 import { ResponseDTO } from "../dtos/response.dto";
 import { Like } from "../models/like.model";

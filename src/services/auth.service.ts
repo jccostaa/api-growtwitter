@@ -1,4 +1,4 @@
-import { repository } from "../database/prisma.connection";
+import repository from "../database/prisma.connection";
 import { ResponseData } from "../dtos/response.dto";
 import { AuthDTO, PayloadToken } from "../dtos/auth.dto";
 import jwt from "jsonwebtoken"
@@ -72,15 +72,15 @@ export class AuthService {
 
         if (payload === null || id !== payload.id) {
             return {
-                success:false,
-                message:"Token inválido",
-                code:401
+                success: false,
+                message: "Token inválido",
+                code: 401
             }
         }
-        return{
-            success:true,
-            message:"Validação executada com sucesso",
-            code:200
+        return {
+            success: true,
+            message: "Validação executada com sucesso",
+            code: 200
         }
     }
 

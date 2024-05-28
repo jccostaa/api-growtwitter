@@ -1,4 +1,4 @@
-import { repository } from "../database/prisma.connection";
+import repository from "../database/prisma.connection";
 import { ResponseDTO } from "../dtos/response.dto";
 import { CreateTweetDTO, UpdateTweetDTO } from "../dtos/tweet.dto";
 import { Tweet } from "../models/tweet.model";

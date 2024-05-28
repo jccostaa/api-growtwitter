@@ -1,4 +1,4 @@
-import { repository } from "../database/prisma.connection"
+import repository from "../database/prisma.connection"
 import { ResponseDTO } from "../dtos/response.dto"
 import { CreateUsuarioDTO, UpdateUsuarioDTO } from "../dtos/usuario.dto"
 import { Usuario } from "../models/usuario.model"
@@ -7,8 +7,8 @@ export class UsuarioService {
 
     public async findAll(): Promise<ResponseDTO> {
         const usuarios = await repository.usuario.findMany({
-            include:{
-                seguidores:true
+            include: {
+                seguidores: true
             }
         })
 
