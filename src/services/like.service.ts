@@ -3,11 +3,11 @@ import { CreateLikeDTO } from "../dtos/like.dto";
 import { ResponseDTO } from "../dtos/response.dto";
 import { Like } from "../models/like.model";
 
-export class LikeService{
+export class LikeService {
 
-    public async findAll(idUsuario:string): Promise<ResponseDTO> {
+    public async findAll(idUsuario: string): Promise<ResponseDTO> {
         const likes = await repository.like.findMany({
-            where:{
+            where: {
                 usuarioId: idUsuario
             }
         })
@@ -22,27 +22,31 @@ export class LikeService{
 
     public async create(likeDTO: CreateLikeDTO): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
-            where:{
+            where: {
                 id: likeDTO.idUsuario
             }
         })
-    
+
         if (!usuario) {
-            throw new Error("Usuario não encontrado").cause
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
-    
+
         const like = new Like(
             likeDTO.idUsuario,
             likeDTO.idTweet
         )
-        
+
         const createdLike = await repository.like.create({
-            data:{
+            data: {
                 usuarioId: like.idUsuario,
                 tweetId: like.idTweet
             }
         })
-    
+
         return {
             success: true,
             code: 201,
@@ -50,12 +54,12 @@ export class LikeService{
             data: createdLike
         }
     }
-    
 
-    public async delete(id:string, usuarioId:string): Promise<ResponseDTO> {
+
+    public async delete(id: string, usuarioId: string): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
-            where:{
-                id:usuarioId
+            where: {
+                id: usuarioId
             }
         })
         if (!usuario) {
@@ -63,11 +67,11 @@ export class LikeService{
                 success: false,
                 code: 404,
                 message: "Usuario não encontrado"
-              }
+            }
         }
 
         const resultado = await repository.like.delete({
-            where:{
+            where: {
                 id
             }
         })
@@ -77,6 +81,6 @@ export class LikeService{
             code: 200,
             message: "like excluído com sucesso.",
             data: resultado
-          }
+        }
     }
 }
