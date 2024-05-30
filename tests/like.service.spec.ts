@@ -61,7 +61,7 @@ describe("Testes UNITARIOS da classe LikeService", () => {
             createdAt: new Date(),
             uptatedAt: new Date(),
             token: "eyJ123456"
-        });
+        })
 
         prismaMock.like.create.mockResolvedValue({
             id: "likeID",
@@ -71,25 +71,26 @@ describe("Testes UNITARIOS da classe LikeService", () => {
             uptatedAt: new Date()
         });
 
-        (randomUUID as jest.Mock).mockReturnValue('uuid-mockado');
+        (randomUUID as jest.Mock).mockReturnValue('uuid-mockado')
 
         const result = await sut.create({
-            idTweet: "1234567",
-            idUsuario: "123456"
-        });
+            idUsuario: "123456",
+            idTweet: "1234567"
+        })
+        
+        const like = new Like("123456", "1234567")
 
-        expect(result).toBeDefined();
-        expect(result).toHaveProperty("success", true);
-        expect(result).toHaveProperty("code", 201);
-        expect(result).toHaveProperty("message", "Like criado com sucesso");
-        expect(result).toHaveProperty("data");
-        expect(result.data).toHaveProperty("tweetId", "1234567");
-        expect(result.data).toHaveProperty("usuarioId", "9876543");
-        expect(result.data).toHaveProperty("id", "likeID");
+        expect(result).toBeDefined()
+        expect(result).toHaveProperty("success", true)
+        expect(result).toHaveProperty("code", 201)
+        expect(result).toHaveProperty("message", "Like criado com sucesso")
+        expect(result).toHaveProperty("data")
+        expect(result.data).toHaveProperty("tweetId", "1234567")
+        expect(result.data).toHaveProperty("usuarioId", "9876543")
+        expect(result.data).toHaveProperty("id", "likeID")
 
-        const like = new Like("123456", "1234567");
-        expect(like.id).toBe('uuid-mockado');
-    });
+        expect(like.id).toBe('uuid-mockado')
+    })
 
     test("Deve retornar falha quando o usuario não for encontrado ao deletar o like", async () => {
         prismaMock.usuario.findUnique.mockResolvedValue(null)
