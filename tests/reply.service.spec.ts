@@ -340,10 +340,10 @@ describe("Testes UNITARIOS da classe ReplyService", () => {
         });
 
         prismaMock.reply.delete.mockResolvedValue({
-            id:"123456",
-            tweetId:"11234567",
-            usuarioId:"1234567890",
-            conteudo:"reply a deletar",
+            id: "123456",
+            tweetId: "11234567",
+            usuarioId: "1234567890",
+            conteudo: "reply a deletar",
             createdAt: new Date(),
             uptatedAt: new Date()
         })
