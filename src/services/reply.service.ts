@@ -4,7 +4,7 @@ import { ReplyTweetDTO, UpdateReplyDTO } from "../dtos/tweet.dto";
 import { Reply } from "../models/reply.model";
 
 export class ReplyService {
-    
+
     public async findAllById(idUsuario: string): Promise<ResponseDTO> {
         const replies = await repository.reply.findMany({
             where: {
@@ -57,40 +57,52 @@ export class ReplyService {
         };
     }
 
-    public async update(tweetDTO: UpdateReplyDTO): Promise<ResponseDTO>{
+    public async update(tweetDTO: UpdateReplyDTO): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
-            where:{
-                id:tweetDTO.idUsuario
+            where: {
+                id: tweetDTO.idUsuario
             }
         })
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
-            where:{
-                id:tweetDTO.idTweet
+            where: {
+                id: tweetDTO.idTweet
             }
         })
         if (!tweet) {
-            throw new Error("Tweet não encontrada")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado"
+            }
         }
 
         const reply = await repository.reply.findUnique({
-            where:{
-                id:tweetDTO.id
+            where: {
+                id: tweetDTO.id
             }
         })
         if (!reply) {
-            throw new Error("Tweet não encontrada")
+            return {
+                success: false,
+                code: 404,
+                message: "Reply não encontrado"
+            }
         }
 
         const resultado = await repository.reply.update({
-            where:{
-                id:tweetDTO.id
+            where: {
+                id: tweetDTO.id
             },
-            data:{
-                conteudo:tweetDTO.conteudo
+            data: {
+                conteudo: tweetDTO.conteudo
             }
         })
 
@@ -102,36 +114,48 @@ export class ReplyService {
         }
     }
 
-    public async delete(id:string, idTweet:string, idUsuario:string): Promise<ResponseDTO>{
+    public async delete(id: string, idTweet: string, idUsuario: string): Promise<ResponseDTO> {
         const usuario = await repository.usuario.findUnique({
             where: {
                 id: idUsuario
             }
         })
         if (!usuario) {
-            throw new Error("Usuario não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
             where: {
-                id:idTweet
+                id: idTweet
             }
         })
         if (!tweet) {
-            throw new Error("Tweet não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado"
+            }
         }
 
         const reply = await repository.reply.findUnique({
-            where:{
+            where: {
                 id
             }
         })
         if (!reply) {
-            throw new Error("Tweet não encontrada")
+            return {
+                success: false,
+                code: 404,
+                message: "Reply não encontrado"
+            }
         }
 
         const resultado = await repository.reply.delete({
-            where:{
+            where: {
                 id
             }
         })
