@@ -30,11 +30,11 @@ export class TweetService {
             }
         })
 
-        if(!tweets){
+        if(!idUsuario){
             return {
                 success: false,
                 code: 404,
-                message: "Tweets não encontrados"
+                message: "Usuario não encontrado"
             }
         }
 
