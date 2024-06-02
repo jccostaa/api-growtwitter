@@ -83,7 +83,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado").cause
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario nao encontrado"
+            }
         }
 
         const novoTweet = new Tweet(
@@ -115,7 +119,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
@@ -124,7 +132,11 @@ export class TweetService {
             }
         })
         if (!tweet) {
-            throw new Error("Tweet não encontrada")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado"
+            }
         }
 
         const resultado = await repository.tweet.update({
@@ -152,7 +164,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado."
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
@@ -162,7 +178,11 @@ export class TweetService {
         })
 
         if (!tweet) {
-            throw new Error("Tweet não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado."
+            }
         }
 
         const resultado = await repository.tweet.delete({
