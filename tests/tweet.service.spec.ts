@@ -3,6 +3,7 @@ import { prismaMock } from "./config/prisma.mock"
 
 import { Seguidor } from "./../src/models/seguidor.model"
 import { randomUUID } from 'crypto';
+import { Tweet } from "../src/models/tweet.model";
 
 jest.mock('crypto', () => ({
     randomUUID: jest.fn(),
@@ -194,10 +195,15 @@ describe("Testes unitarios da classe TweetService", () => {
         (randomUUID as jest.Mock).mockReturnValue('uuid-mockado')
 
         const result = await sut.create(mockTweetDTO)
+        const tweet = new Tweet(
+            "123456",
+            "conteudo do tweet",
+            "tw")
 
         expect(result).toBeDefined()
         expect(result).toHaveProperty("success", true)
         expect(result).toHaveProperty("code", 201)
+        expect(tweet.id).toBe("uuid-mockado")
         expect(result).toHaveProperty("message", "Tweet criado com sucesso")
         expect(result).toHaveProperty("data", mockCreatedTweet)
     })

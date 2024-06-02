@@ -74,7 +74,11 @@ export class UsuarioService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: 'Usuario nao encontrado'
+            }
         }
 
         const updatedUsuario = await repository.usuario.update({
