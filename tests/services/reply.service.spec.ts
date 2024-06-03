@@ -1,7 +1,7 @@
-import { ReplyService } from "../src/services/reply.service"
-import { prismaMock } from "./config/prisma.mock"
+import { ReplyService } from "../../src/services/reply.service"
+import { prismaMock } from "../config/prisma.mock"
 
-import { Reply } from "../src/models/reply.model";
+import { Reply } from "../../src/models/reply.model";
 import { randomUUID } from 'crypto';
 
 jest.mock('crypto', () => ({

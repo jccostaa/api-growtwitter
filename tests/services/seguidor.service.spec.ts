@@ -1,7 +1,7 @@
-import { SeguidorService } from "../src/services/seguidor.service"
-import { prismaMock } from "./config/prisma.mock"
+import { SeguidorService } from "../../src/services/seguidor.service"
+import { prismaMock } from "../config/prisma.mock"
 
-import { Seguidor } from "../src/models/seguidor.model";
+import { Seguidor } from "../../src/models/seguidor.model";
 import { randomUUID } from 'crypto';
 
 jest.mock('crypto', () => ({

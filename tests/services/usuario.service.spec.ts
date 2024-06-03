@@ -1,7 +1,7 @@
-import { UsuarioService } from "../src/services/usuario.service"
-import { prismaMock } from "./config/prisma.mock"
+import { UsuarioService } from "../../src/services/usuario.service"
+import { prismaMock } from "../config/prisma.mock"
 
-import { Usuario } from "./../src/models/usuario.model"
+import { Usuario } from "../../src/models/usuario.model"
 import { randomUUID } from 'crypto';
 
 jest.mock('crypto', () => ({

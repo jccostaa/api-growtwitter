@@ -9,7 +9,9 @@
     "test": "jest --silent --noStackTrace",
     "test:verbose": "jest --verbose --detectOpenHandles",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --silent --noStackTrace --watchAll"
+    "test:watch": "jest --silent --noStackTrace --watchAll",
+    "test:e2e": "jest -c jest.e2e.config.ts --verbose --watchAll",
+    "test:unit": "jest -c jest.unit.config.ts --verbose --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -20,8 +22,10 @@
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.24",
+    "@types/supertest": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.6",
     "prisma": "^5.10.2",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.1.3",
     "ts-node-dev": "^2.0.0",
     "typedoc": "^0.25.13",

@@ -1,9 +1,9 @@
-import { TweetService } from "../src/services/tweet.service"
-import { prismaMock } from "./config/prisma.mock"
+import { TweetService } from "../../src/services/tweet.service"
+import { prismaMock } from "../config/prisma.mock"
 
-import { Seguidor } from "./../src/models/seguidor.model"
+import { Seguidor } from "../../src/models/seguidor.model"
 import { randomUUID } from 'crypto';
-import { Tweet } from "../src/models/tweet.model";
+import { Tweet } from "../../src/models/tweet.model";
 
 jest.mock('crypto', () => ({
     randomUUID: jest.fn(),
