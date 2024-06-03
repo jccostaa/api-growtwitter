@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { repository } from "../database/prisma.connection";
+import { AuthService } from "../services/auth.service";
+
+const authService = new AuthService()
 
 export async function validateToken(request: Request, response: Response, next: NextFunction) {
     try {
@@ -15,26 +17,18 @@ export async function validateToken(request: Request, response: Response, next: 
             })
         }
 
-        const usuario = await repository.usuario.findUnique({
-            where: {
-                id: idUsuario
-            }
-        })
+        const result = await authService.validateLogin(authorization, idUsuario)
 
-        if (!usuario || usuario.token !== authorization) {
-            return response.status(401).json({
-                success: false,
-                code: 401,
-                message: "Token invalido"
-            })
+        if(!result.success){
+            return response.status(result.code).json(result)
         }
 
         next();
-    } catch (error) {
+    } catch (error:any) {
         return response.status(500).json({
             success: false,
             code: response.statusCode,
-            message: "Erro"
+            message: error.toString()
         })
     }
 }

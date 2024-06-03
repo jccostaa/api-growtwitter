@@ -6,7 +6,7 @@ export class Reply {
     constructor(
         private _usuarioId: string,
         private _tweetId: string,
-        private _conteudo?:string
+        private _conteudo:string
     ) {
         this._id = randomUUID()
     }
@@ -20,7 +20,7 @@ export class Reply {
     get tweetId(): string {
         return this._tweetId
     }
-    get conteudo():string{
+    get conteudo():string | undefined{
         return this._conteudo
     }
 }

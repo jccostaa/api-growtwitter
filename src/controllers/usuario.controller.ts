@@ -42,7 +42,6 @@ export class UsuarioController {
             return response.status(resultado.code).json(resultado)
 
         } catch (error) {
-            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,

@@ -1,14 +1,15 @@
-import { repository } from "../database/prisma.connection";
+import repository from "../database/prisma.connection";
 import { ResponseDTO } from "../dtos/response.dto";
 import { CreateTweetDTO, UpdateTweetDTO } from "../dtos/tweet.dto";
 import { Tweet } from "../models/tweet.model";
 
 export class TweetService {
 
-    public async findAll(idUsuario: string): Promise<ResponseDTO> {
-        const tweets = await repository.tweet.findMany({
-            where: {
-                usuarioId: idUsuario
+    public async findAll(): Promise<ResponseDTO> {
+
+        const allTweets = await repository.tweet.findMany({
+            include:{
+                replies:true
             }
         })
 
@@ -16,8 +17,62 @@ export class TweetService {
             success: true,
             code: 200,
             message: "Tweets listados com sucesso",
+            data: allTweets
+        }
+    }
+
+    public async findAllById(idUsuario: string): Promise<ResponseDTO> {
+        const tweets = await repository.tweet.findMany({
+            where: {
+                usuarioId: idUsuario
+            }, include:{
+                replies:true
+            }
+        })
+
+        if(!idUsuario){
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
+        }
+
+        return {
+            success: true,
+            code: 200,
+            message: "Tweets listados com sucesso",
             data: tweets
         }
+    }
+
+    public async findFollowingTweets(idUsuario: string): Promise<ResponseDTO> {
+        const seguindo = await repository.seguidor.findMany({
+            where: { seguidorId: idUsuario },
+            select: { usuarioId: true }
+        });
+
+        const seguindoIds = seguindo.map(seguido => seguido.usuarioId);
+
+        seguindoIds.push(idUsuario);
+
+        const tweets = await repository.tweet.findMany({
+            where: {
+                usuarioId: {
+                    in: seguindoIds
+                }
+            },
+            include: {
+                replies: true
+            }
+        });
+
+        return {
+            success: true,
+            code: 200,
+            message: "Tweets listados com sucesso",
+            data: tweets
+        };
     }
 
     public async create(tweetDTO: CreateTweetDTO): Promise<ResponseDTO> {
@@ -28,7 +83,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado").cause
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario nao encontrado"
+            }
         }
 
         const novoTweet = new Tweet(
@@ -60,7 +119,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
@@ -69,7 +132,11 @@ export class TweetService {
             }
         })
         if (!tweet) {
-            throw new Error("Tweet não encontrada")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado"
+            }
         }
 
         const resultado = await repository.tweet.update({
@@ -97,7 +164,11 @@ export class TweetService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado."
+            }
         }
 
         const tweet = await repository.tweet.findUnique({
@@ -107,11 +178,15 @@ export class TweetService {
         })
 
         if (!tweet) {
-            throw new Error("Tweet não encontrado.")
+            return {
+                success: false,
+                code: 404,
+                message: "Tweet não encontrado."
+            }
         }
 
         const resultado = await repository.tweet.delete({
-            where:{
+            where: {
                 id
             }
         })
@@ -121,6 +196,6 @@ export class TweetService {
             code: 200,
             message: "Tweet excluído com sucesso.",
             data: resultado
-          }
+        }
     }
 }

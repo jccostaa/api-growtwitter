@@ -1,4 +1,4 @@
-import { repository } from "../database/prisma.connection"
+import repository from "../database/prisma.connection"
 import { ResponseDTO } from "../dtos/response.dto"
 import { CreateUsuarioDTO, UpdateUsuarioDTO } from "../dtos/usuario.dto"
 import { Usuario } from "../models/usuario.model"
@@ -6,7 +6,11 @@ import { Usuario } from "../models/usuario.model"
 export class UsuarioService {
 
     public async findAll(): Promise<ResponseDTO> {
-        const usuarios = await repository.usuario.findMany()
+        const usuarios = await repository.usuario.findMany({
+            include: {
+                seguidores: true
+            }
+        })
 
         return {
             success: true,
@@ -47,7 +51,11 @@ export class UsuarioService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: "Usuario não encontrado"
+            }
         }
 
         return {
@@ -66,7 +74,11 @@ export class UsuarioService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: 'Usuario nao encontrado'
+            }
         }
 
         const updatedUsuario = await repository.usuario.update({
@@ -97,7 +109,11 @@ export class UsuarioService {
         })
 
         if (!usuario) {
-            throw new Error("Usuario não encontrado")
+            return {
+                success: false,
+                code: 404,
+                message: 'Usuario não encontrado'
+            }
         }
 
         const deletedUsuario = await repository.usuario.delete({

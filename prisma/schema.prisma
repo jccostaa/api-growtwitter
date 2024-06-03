@@ -25,8 +25,8 @@ model Usuario {
   Tweet      Tweet[]
   Like       Like[]
   replies    Reply[]
-  seguidores Seguidor[] @relation("seguidor_usuario")
   seguindo   Seguidor[] @relation("usuario_seguido")
+  seguidores Seguidor[] @relation("seguidor_usuario")
 
   createdAt DateTime @default(now()) @map("created_at")
   uptatedAt DateTime @updatedAt @map("updated_at")
@@ -66,6 +66,7 @@ model Like {
 }
 
 model Reply {
+  id        String  @id @default(uuid()) @db.Uuid
   usuarioId String  @default(uuid()) @map("id_usuario") @db.Uuid
   tweetId   String  @default(uuid()) @map("id_tweet") @db.Uuid
   conteudo  String? @db.VarChar(280)
@@ -76,13 +77,13 @@ model Reply {
   usuario Usuario @relation(fields: [usuarioId], references: [id])
   tweet   Tweet   @relation(fields: [tweetId], references: [id])
 
-  @@id([tweetId, usuarioId])
   @@map("replies")
 }
 
 model Seguidor {
-  usuario    Usuario @relation("usuario_seguido", fields: [usuarioId], references: [id])
-  usuarioId  String  @default(uuid()) @map("usuario_id") @db.Uuid
+  usuario   Usuario @relation("usuario_seguido", fields: [usuarioId], references: [id])
+  usuarioId String  @default(uuid()) @map("usuario_id") @db.Uuid
+
   seguidor   Usuario @relation("seguidor_usuario", fields: [seguidorId], references: [id])
   seguidorId String  @default(uuid()) @map("seguidor_id") @db.Uuid
 

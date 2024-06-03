@@ -12,7 +12,7 @@ export class TweetController {
         try {
             const { idUsuario } = request.params
 
-            const tweets = await tweetService.findAll(idUsuario)
+            const tweets = await tweetService.findAllById(idUsuario)
 
             return response.status(200).json(tweets)
         }
@@ -20,8 +20,39 @@ export class TweetController {
             return response.status(500).json({
                 success: false,
                 code: 500,
+                message: 'Erro ao listar tweets do usuario'
+            })
+        }
+    }
+
+    //listagem de todos
+    public async indexAll(response: Response) {
+        try {
+            const AllTweets = await tweetService.findAll()
+
+            return response.status(200).json(AllTweets)
+        } catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: 500,
                 message: 'Erro ao listar tweets'
             })
+        }
+    }
+
+    //feed classico do twitter, seus e de quem segue
+    public async indexFollowing(request: Request, response: Response) {
+        try {
+            const { idUsuario } = request.params;
+            const tweets = await tweetService.findFollowingTweets(idUsuario);
+
+            return response.status(200).json(tweets);
+        } catch (error) {
+            return response.status(500).json({
+                success: false,
+                code: 500,
+                message: 'Erro ao listar tweets do usuário e dos seguidores'
+            });
         }
     }
 
@@ -46,7 +77,6 @@ export class TweetController {
             return response.status(resultado.code).json(resultado)
         }
         catch (error) {
-            console.log(error)
             return response.status(500).json({
                 success: false,
                 code: response.statusCode,
@@ -79,7 +109,7 @@ export class TweetController {
             return response.status(200).json(resultado)
 
         }
-        catch (error) {
+        catch (error:any) {
             console.log(error)
             return response.status(500).json({
                 success: false,
